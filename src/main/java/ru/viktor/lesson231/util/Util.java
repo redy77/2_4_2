@@ -3,6 +3,7 @@ package ru.viktor.lesson231.util;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -26,8 +27,12 @@ import java.util.Properties;
 @ComponentScan("ru.viktor.lesson231")
 public class Util {
 
-
     Environment environment;
+
+    @Autowired
+    public Util(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public DataSource dataSource(){
@@ -43,7 +48,7 @@ public class Util {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean (){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(environment.getRequiredProperty("ru.viktor.lesson231.server.entity"));
+        em.setPackagesToScan(environment.getRequiredProperty("db.entity.package"));
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(getHibernateProperties());
         return em;
