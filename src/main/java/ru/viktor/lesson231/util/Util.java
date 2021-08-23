@@ -1,24 +1,17 @@
 package ru.viktor.lesson231.util;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.viktor.lesson231.models.User;
-
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
 
 @Configuration
@@ -41,6 +34,7 @@ public class Util {
         ds.setUsername(environment.getRequiredProperty("db.username"));
         ds.setPassword(environment.getRequiredProperty("db.password"));
         ds.setDriverClassName(environment.getRequiredProperty("db.driver"));
+
         return ds;
     }
 
@@ -49,10 +43,13 @@ public class Util {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(environment.getRequiredProperty("db.entity.package"));
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5InnoDBDialect");
+        em.setJpaVendorAdapter(adapter);Map<String, Object> properties = new Hashtable<>();
         em.setJpaProperties(getHibernateProperties());
         return em;
     }
+
 
     public Properties getHibernateProperties(){
         try {

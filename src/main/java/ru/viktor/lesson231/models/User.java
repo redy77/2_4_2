@@ -13,5 +13,14 @@ public class User {
     private String email;
 
 
+    public User(String name, int age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
     }
+
+    public User() {
+
+    }
+}
 

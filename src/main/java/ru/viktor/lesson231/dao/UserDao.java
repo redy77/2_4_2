@@ -5,9 +5,9 @@ import ru.viktor.lesson231.models.User;
 import java.util.List;
 
 public interface UserDao {
-    List <User> addAll();
-    User addUser(Long id);
-    void setUser();
+    List <User> getAll();
+    User getUser(Long id);
+    void addUser(User user);
     void editUser();
     void deleteUser();
 
