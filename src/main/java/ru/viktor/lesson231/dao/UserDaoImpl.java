@@ -1,23 +1,20 @@
 package ru.viktor.lesson231.dao;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.viktor.lesson231.models.User;
 
 import javax.persistence.EntityManager;
-
-
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Component
+@Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
 
-        @PersistenceContext
+    @PersistenceContext
     private EntityManager entityManager;
-
 
     @Override
     public List<User> getAll() {
@@ -33,7 +30,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void addUser(User user) {
         entityManager.persist(user);
     }

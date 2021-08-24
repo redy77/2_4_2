@@ -5,14 +5,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.Properties;
 
 
@@ -38,15 +40,16 @@ public class DataConfig {
         return ds;
     }
 
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(environment.getRequiredProperty("db.entity.package"));
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5InnoDBDialect");
+        adapter.setGenerateDdl(Boolean.TRUE); adapter.setShowSql(Boolean.TRUE);
+        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL8InnoDBDialect");
         em.setJpaVendorAdapter(adapter);
-        Map<String, Object> properties = new Hashtable<>();
         em.setJpaProperties(getHibernateProperties());
         return em;
     }
@@ -57,5 +60,20 @@ public class DataConfig {
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         return properties;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        System.out.println("Transaction manager initializing");
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+
+        return transactionManager;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        System.out.println("Exception translation initializing");
+        return new PersistenceExceptionTranslationPostProcessor();
     }
 }

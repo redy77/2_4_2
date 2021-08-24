@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="taskjdbc@localhost" uuid="9a9bc2d5-58df-4547-b633-9daca4d83c72">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/taskjdbc</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="taskjdbc@localhost [2]" uuid="a0117d03-373b-40c2-9c17-9e63a2af9a79">
+    <data-source source="LOCAL" name="taskjdbc@localhost" uuid="d9779a56-c26f-4354-9169-1a8a74ff0d36">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
