@@ -75,12 +75,6 @@ public class User {
         return Objects.hash(id, name, age, email);
     }
 
-    public void setUser(User user) {
-        this.id = user.id;
-        this.name = user.name;
-        this.age = user.age;
-        this.email = user.email;
-    }
 }
 
 
