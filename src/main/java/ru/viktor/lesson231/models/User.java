@@ -8,10 +8,17 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String name;
     private int age;
     private String email;
+
+    public User(int id, String name, int age, String email) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+    }
 
     public User(String name, int age, String email) {
         this.name = name;
@@ -23,11 +30,11 @@ public class User {
     public User() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -67,5 +74,13 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, name, age, email);
     }
+
+    public void setUser(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.age = user.age;
+        this.email = user.email;
+    }
 }
+
 

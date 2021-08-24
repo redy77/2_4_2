@@ -1,9 +1,7 @@
 package ru.viktor.lesson231.dao;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.viktor.lesson231.models.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -21,7 +19,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(Long id) {
+    public User getUser(int id) {
 
         TypedQuery<User> query = entityManager.createQuery("select u from User u where u.id= :id", User.class);
         query.setParameter("id", id);
@@ -33,16 +31,15 @@ public class UserDaoImpl implements UserDao {
         entityManager.persist(user);
     }
 
+
     @Override
-    public void editUser(String name, int age, String email) {
-        TypedQuery<User> query = entityManager.createQuery("update User set name = :name, age = :age, email = :email", User.class);
-        query.setParameter("name", name);
-        query.setParameter("age", age);
-        query.setParameter("email", email);
-        query.executeUpdate();
+    public void editUser(User user) {
+        User mergedUser = entityManager.merge(user);
+        user.setUser(mergedUser);
     }
+
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(int id) {
         entityManager.remove(getUser(id));
     }
 }

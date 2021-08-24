@@ -25,7 +25,5 @@ public class StarterKit {
         userService.addUser(user2);
         User user3 = new User("Bill", 32, "bill@tom.ru");
         userService.addUser(user3);
-
-
     }
 }
