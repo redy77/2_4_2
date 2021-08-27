@@ -2,22 +2,62 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New person</title>
+    <title>Добавить пользователя</title>
 </head>
 <body>
+<h2>Добавить пользователя</h2>
 
-<form th:method="POST" th:action="@{/}" th:object="${user}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+<div>
+    <form th:action="@{/new}"
+          th:method="POST"
+          th:object="${user}">
+        <fieldset>
+            <legend>Данные пользователя</legend>
+            <p>
+                <label th:for="username">Логин
+                    <input type="text"
+                           name="username"
+                           th:id="username">
+                </label>
+                <br/>
+                <label th:for="age">Возраст
+                    <input type="text"
+                           name="age"
+                           th:id="age">
+                </label>
+                <br/>
+                <label th:for="email">Почтовый ящик
+                    <input type="text"
+                           name="email"
+                           th:id="email">
+                    <br/>
+                    <label th:for="password">Пароль
+                        <input type="text"
+                               name="password"
+                               th:id="password">
+                    </label>
+                </label>
+                <br/>
+                <label>
+                    <input type="checkbox"
+                           name="roleAdmin"
+                           th:value="ROLE_ADMIN"
+                           th:text="Администратор">
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="role_USER"
+                           th:value="ROLE_USER"
+                           th:text="Юзер">
+                </label>
+            </p>
+        </fieldset>
+        <button type="submit">Сохранить пользователя</button>
+    </form>
     <br/>
-    <label for="age">Enter age: </label>
-    <input type="text" th:field="*{age}" id="age"/>
-    <br/>
-    <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <br/>
-    <input type="submit" value="Create!"/>
-</form>
-
+    <form th:action="@{/index}">
+        <button type="submit">Назад к списку пользователей</button>
+    </form>
+</div>
 </body>
 </html>

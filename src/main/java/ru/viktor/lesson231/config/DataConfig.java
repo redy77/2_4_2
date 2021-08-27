@@ -12,6 +12,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -45,7 +46,8 @@ public class DataConfig {
         em.setDataSource(dataSource());
         em.setPackagesToScan(environment.getRequiredProperty("db.entity.package"));
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-        adapter.setGenerateDdl(Boolean.TRUE); adapter.setShowSql(Boolean.TRUE);
+        adapter.setGenerateDdl(Boolean.TRUE);
+        adapter.setShowSql(Boolean.TRUE);
         adapter.setDatabasePlatform("org.hibernate.dialect.MySQL8InnoDBDialect");
         em.setJpaVendorAdapter(adapter);
         em.setJpaProperties(getHibernateProperties());

@@ -10,7 +10,7 @@
     <tbody>
     <tr>
         <td>
-            <a th:text="${user.getName()}">VALUE</a>
+            <a th:text="${user.getUsername()}">VALUE</a>
         </td>
     <tr>
         <td>
@@ -30,9 +30,10 @@
 </form>
 <br/>
 <br/>
-<form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
+<form th:action="@{/{id}(id=${user.getId()})}" th:method="DELETE">
     <input type="submit" value="Delete"/>
 </form>
-
+<form th:if="${#request.userPrincipal != null}" th:action="@{/logout}">
+    <button type="submit">Выйти</button>
 </body>
 </html>
