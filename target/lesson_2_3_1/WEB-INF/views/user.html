@@ -7,33 +7,27 @@
 <body>
 
 <table BORDER="0">
+    <tr>
+        <th>Пользователь</th>
+        <th>Возраст</th>
+        <th>Email</th>
+    </tr>
     <tbody>
     <tr>
         <td>
             <a th:text="${user.getUsername()}">VALUE</a>
         </td>
-    <tr>
         <td>
             <a th:text="${user.getAge}">VALUE</a>
         </td>
-    </tr>
-    <tr>
         <td>
             <a th:text="${user.getEmail}">VALUE</a>
         </td>
-    </tr>
     </tbody>
 </table>
 <br/>
-<form th:action="@{/{id}/edit(id=${user.getId()})}">
-    <input type="submit" value="Edit"/>
-</form>
-<br/>
-<br/>
-<form th:action="@{/{id}(id=${user.getId()})}" th:method="DELETE">
-    <input type="submit" value="Delete"/>
-</form>
 <form th:if="${#request.userPrincipal != null}" th:action="@{/logout}">
     <button type="submit">Выйти</button>
+    <form/>
 </body>
 </html>

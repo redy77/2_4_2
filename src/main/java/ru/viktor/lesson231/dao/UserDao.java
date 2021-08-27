@@ -21,7 +21,9 @@ public interface UserDao {
     void addRole(Roles roles);
 
     void editRole(Roles role);
+
     Roles getRole(int id);
+
     Roles getRoleByName(String role);
 
 

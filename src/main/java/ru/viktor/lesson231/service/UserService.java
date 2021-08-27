@@ -19,7 +19,10 @@ public interface UserService {
     User getUserByName(String name);
 
     public void addRole(Roles roles);
+
     public void editRole(Roles role);
+
     Roles getRole(int id);
+
     Roles getRoleByName(String role);
 }

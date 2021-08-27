@@ -5,11 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails{
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,24 +26,9 @@ public class User implements UserDetails{
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Roles> roles = new HashSet<>();
 
-    public void addRole(Roles role){
+    public void addRole(Roles role) {
         this.roles.add(role);
         role.getUsers().add(this);
-    }
-
-    public User(String username, String password, int age, String email, Set<Roles> roles) {
-        this.username = username;
-        this.password = password;
-        this.age = age;
-        this.email = email;
-        this.roles = roles;
-    }
-
-    public User(String username, String password, int age, String email) {
-        this.username = username;
-        this.password = password;
-        this.age = age;
-        this.email = email;
     }
 
     public Set<Roles> getRoles() {
@@ -52,21 +40,19 @@ public class User implements UserDetails{
         this.roles = roles;
     }
 
-    public User(int id, String username, int age, String email) {
-        this.id = id;
-        this.username = username;
-        this.age = age;
-        this.email = email;
-    }
-
-
-    public User(String username, int age, String email) {
-        this.username = username;
-        this.age = age;
-        this.email = email;
-    }
-
     public User() {
+    }
+
+    public User(String username, String password, int age, String email, Set<Roles> roles) {
+        this.username = username;
+        this.password = password;
+        this.age = age;
+        this.email = email;
+        this.roles = roles;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getId() {

@@ -11,9 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,52 +29,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // конфигурация для прохождения аутентификации
     }
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-//        filter.setEncoding("UTF-8");
-//        filter.setForceEncoding(true);
-//        http.addFilterBefore(filter, CsrfFilter.class);
         http.formLogin()
-                // указываем страницу с формой логина
                 .loginPage("/login")
-                //указываем логику обработки при логине
                 .successHandler(successUserHandler)
-                // указываем action с формы логина
                 .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/", false)
-                // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("j_username")
                 .passwordParameter("j_password");
-                // даем доступ к форме логина всем
 
         http.logout()
-                // разрешаем делать логаут всем
                 .permitAll()
-                // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                // указываем URL при удачном логауте
                 .logoutSuccessUrl("/login?logout")
-                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
         http
-                // делаем страницу регистрации недоступной для авторизированных пользователей
+
                 .authorizeRequests()
-                //страницы аутентификаци доступна всем
+                .antMatchers("/index").permitAll()
                 .antMatchers("/login").anonymous()
-                // защищенные URL
-                .antMatchers("/index").access("hasAnyRole('ADMIN')").anyRequest().authenticated()
-                .antMatchers("/{id}").authenticated();
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/new/**").hasRole("ADMIN")
+                .antMatchers("/edit/**").hasRole("ADMIN")
+                .anyRequest().authenticated();
     }
 
-    // Необходимо для шифрования паролей
-    // В данном примере не используется, отключен
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return  NoOpPasswordEncoder.getInstance();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Override

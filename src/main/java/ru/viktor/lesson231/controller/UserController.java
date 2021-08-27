@@ -28,7 +28,7 @@ public class UserController {
     }
 
 
-    @GetMapping("index")
+    @GetMapping("admin")
     public String AllUsers(Model model) {
         model.addAttribute("users", userService.getAll());
         return "index";
@@ -49,7 +49,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id, Model model) {
         userService.deleteUser(id);
-        return "redirect:/index";
+        return "redirect:/admin";
     }
 
     @GetMapping("/new")
@@ -69,7 +69,7 @@ public class UserController {
         }
         user.setRoles(roles);
         userService.addUser(user);
-        return "redirect:/index";
+        return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
@@ -88,6 +88,6 @@ public class UserController {
         }
         user.setRoles(roles);
         userService.editUser(user);
-        return "redirect:/index";
+        return "redirect:/admin";
     }
 }

@@ -8,14 +8,12 @@ import javax.servlet.ServletException;
 
 public class MySpringMvcDispatcherSerlvetIntitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    // Метод, указывающий на класс конфигурации
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
         };
     }
 
-    // Добавление конфигурации, в которой инициализируем ViewResolver, для корректного отображения jsp
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{SpringConfig.class};
