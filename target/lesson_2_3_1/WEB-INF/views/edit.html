@@ -16,7 +16,20 @@
     <label for="email">Enter email: </label>
     <input id="email" th:field="*{email}" type="text"/>
     <br/>
+    <label th:for="password">Пароль
+        <input type="text"
+               name="password"
+               th:id="password">
+    </label>
+    <label>
+        <input type="checkbox"
+               name="roleAdmin"
+               th:value="ROLE_ADMIN"
+               th:text="Администратор">
+    </label>
+    <br/>
     <input type="submit" value="Update!"/>
+    <br/>
 </form>
 
 </body>

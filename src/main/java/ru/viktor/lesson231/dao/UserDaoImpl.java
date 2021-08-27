@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Roles getRoleByName(String role) {
-        TypedQuery<Roles> query = entityManager.createQuery("SELECT r FROM Roles r WHERE r.role=:role", Roles.class);
+        TypedQuery<Roles> query = entityManager.createQuery("select r from Roles r where r.role= :role", Roles.class);
         query.setParameter("role", role);
         return query.getResultList().stream().findAny().orElse(null);
     }

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Transactional
 @Entity
 @Table(name = "role")
 public class Roles implements GrantedAuthority {
@@ -23,7 +22,7 @@ public class Roles implements GrantedAuthority {
         this.role = role;
     }
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     private Set<User> users;
 
     public Roles() {

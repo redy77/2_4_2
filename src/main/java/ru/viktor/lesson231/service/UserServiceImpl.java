@@ -2,6 +2,7 @@ package ru.viktor.lesson231.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.viktor.lesson231.dao.UserDao;
 import ru.viktor.lesson231.models.Roles;
@@ -9,8 +10,8 @@ import ru.viktor.lesson231.models.User;
 
 import java.util.List;
 
-@Component
-@Transactional(readOnly = true)
+@Service
+@Transactional
 public class UserServiceImpl implements UserService {
     UserDao userDao;
 
@@ -30,19 +31,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+
     public void addUser(User user) {
         userDao.addUser(user);
     }
 
     @Override
-    @Transactional
+
     public void editUser(User user) {
         userDao.editUser(user);
     }
 
     @Override
-    @Transactional
+
     public void deleteUser(int id) {
         userDao.deleteUser(id);
     }
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+
     public void addRole(Roles roles) {
         userDao.addRole(roles);
     }

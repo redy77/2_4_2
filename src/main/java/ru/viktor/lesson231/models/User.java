@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.util.*;
 
-@Transactional
 @Entity
 @Table(name = "users")
 public class User implements UserDetails{

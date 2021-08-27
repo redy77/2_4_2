@@ -23,7 +23,6 @@
             <td>
                 <div th:each="role: ${user.getRoles()}">
                     <span th:if="(${role.getRole()} == 'ROLE_ADMIN')" th:utext="Администратор"></span>
-                    <span th:if="(${role.getRole()} == 'ROLE_USER')" th:utext="Пользователь"></span>
                 </div>
             </td>
         </tr>

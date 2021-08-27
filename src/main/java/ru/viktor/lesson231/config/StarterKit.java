@@ -6,8 +6,7 @@ import ru.viktor.lesson231.models.User;
 import ru.viktor.lesson231.service.UserService;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class StarterKit {
@@ -29,18 +28,10 @@ public class StarterKit {
         Roles role1 = new Roles("ROLE_USER");
         userService.addRole(role1);
 
-        User user = new User("Tom", "1", 34, "tom@tom.ru", Set.of(role, role1));
+        User user = new User("1", "1", 34, "tom@tom.ru", Set.of(role, role1));
         User user1 = new User("Ket", "1", 34, "tom@tom.ru", Set.of(role1));
         userService.addUser(user);
         userService.addUser(user1);
-//        User user1 = new User("Ket", 23, "ket@tom.ru");
-//        userService.addUser(user1);
-//        User user2 = new User("Liz", 38, "liz@tom.ru");
-//        userService.addUser(user2);
-//        User user3 = new User("Bill", 32, "bill@tom.ru");
-//        userService.addUser(user3);
-//
-
 
     }
 }

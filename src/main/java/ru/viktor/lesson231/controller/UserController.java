@@ -9,9 +9,7 @@ import ru.viktor.lesson231.models.User;
 import ru.viktor.lesson231.service.UserService;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -30,7 +28,6 @@ public class UserController {
     }
 
 
-
     @GetMapping("index")
     public String AllUsers(Model model) {
         model.addAttribute("users", userService.getAll());
@@ -40,7 +37,7 @@ public class UserController {
     @GetMapping("user")
     public String User(Model model, Principal principal) {
         model.addAttribute("user", userService.getUserByName(principal.getName()));
-       return "user";
+        return "user";
     }
 
     @GetMapping("/{id}")
@@ -57,13 +54,14 @@ public class UserController {
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
+
         return "new";
     }
 
     @PostMapping("/new")
     public String create(@ModelAttribute("user") User user,
-                              @RequestParam(required=false) String roleAdmin,
-    @RequestParam(required=false) String role_USER){
+                         @RequestParam(required = false) String roleAdmin)
+    {
         Set<Roles> roles = new HashSet<>();
         roles.add(userService.getRoleByName("ROLE_USER"));
         if (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")) {
@@ -81,7 +79,14 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user) {
+    public String update(@ModelAttribute("user") User user,
+                         @RequestParam(required = false) String roleAdmin) {
+        Set<Roles> roles = new HashSet<>();
+        roles.add(userService.getRoleByName("ROLE_USER"));
+        if (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")) {
+            roles.add(userService.getRoleByName("ROLE_ADMIN"));
+        }
+        user.setRoles(roles);
         userService.editUser(user);
         return "redirect:/index";
     }
