@@ -30,9 +30,9 @@ public class StarterKit {
         userService.addRole(role1);
 
         User user = new User("Tom", "1", 34, "tom@tom.ru", Set.of(role, role1));
-//
+        User user1 = new User("Ket", "1", 34, "tom@tom.ru", Set.of(role1));
         userService.addUser(user);
-//        user.addRole(role1);
+        userService.addUser(user1);
 //        User user1 = new User("Ket", 23, "ket@tom.ru");
 //        userService.addUser(user1);
 //        User user2 = new User("Liz", 38, "liz@tom.ru");

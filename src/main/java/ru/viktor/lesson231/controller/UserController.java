@@ -8,27 +8,19 @@ import ru.viktor.lesson231.models.Roles;
 import ru.viktor.lesson231.models.User;
 import ru.viktor.lesson231.service.UserService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Controller
-public class LoginController {
-//    @RequestMapping( "/")
-//    public String getHomePage(Model model) {
-//        List<String> messages = new ArrayList<>();
-//        messages.add("Hello!");
-//        messages.add("I'm Spring MVC-SECURITY application");
-//        messages.add("This is Root Page");
-//        model.addAttribute("messages", messages);
-//        return "helloPage";
-//    }
+public class UserController {
 
     private final UserService userService;
 
     @Autowired
-    public LoginController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -45,8 +37,14 @@ public class LoginController {
         return "index";
     }
 
+    @GetMapping("user")
+    public String User(Model model, Principal principal) {
+        model.addAttribute("user", userService.getUserByName(principal.getName()));
+       return "user";
+    }
+
     @GetMapping("/{id}")
-    public String User(@PathVariable("id") int id, Model model) {
+    public String UserId(@PathVariable("id") int id, Model model) {
         model.addAttribute(userService.getUser(id));
         return "user";
     }
