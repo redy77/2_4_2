@@ -49,9 +49,12 @@
         <button type="submit">Сохранить пользователя</button>
     </form>
     <br/>
-    <form th:action="@{/index}">
+    <form th:action="@{/admin}">
         <button type="submit">Назад к списку пользователей</button>
     </form>
 </div>
+<form th:if="${#request.userPrincipal != null}" th:action="@{/logout}">
+    <button type="submit">Выйти</button>
+</form>
 </body>
 </html>

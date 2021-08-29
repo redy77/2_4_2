@@ -11,6 +11,7 @@
         <th>Пользователь</th>
         <th>Возраст</th>
         <th>Email</th>
+        <th>Пароль</th>
     </tr>
     <tbody>
 
@@ -39,10 +40,16 @@
     </div>
     </tbody>
 </table>
+
 </br>
+
 <hr/>
+<form th:action="@{/new}">
+    <button type="submit">Создать нового пользователя</button>
+</form>
 
-<a href="/new">Create new user</a>
-
+<form th:if="${#request.userPrincipal != null}" th:action="@{/logout}">
+    <button type="submit">Выйти</button>
+</form>
 </body>
 </html>
