@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.viktor.lesson231.dao.UserDao;
-import ru.viktor.lesson231.models.Roles;
 import ru.viktor.lesson231.models.User;
-
 import java.util.List;
 
 @Service
@@ -52,24 +50,4 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByName(name);
     }
 
-    @Override
-
-    public void addRole(Roles roles) {
-        userDao.addRole(roles);
-    }
-
-    @Override
-    public void editRole(Roles role) {
-        userDao.editRole(role);
-    }
-
-    @Override
-    public Roles getRole(int id) {
-        return userDao.getRole(id);
-    }
-
-    @Override
-    public Roles getRoleByName(String role) {
-        return userDao.getRoleByName(role);
-    }
 }

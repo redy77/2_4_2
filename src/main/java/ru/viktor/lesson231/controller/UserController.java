@@ -6,27 +6,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.viktor.lesson231.models.Roles;
 import ru.viktor.lesson231.models.User;
+import ru.viktor.lesson231.service.RoleService;
 import ru.viktor.lesson231.service.UserService;
-
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping(value = "login")
     public String getLoginPage() {
         return "login";
     }
-
 
     @GetMapping("admin")
     public String AllUsers(Model model) {
@@ -60,12 +62,17 @@ public class UserController {
 
     @PostMapping("/new")
     public String create(@ModelAttribute("user") User user,
-                         @RequestParam(required = false) String roleAdmin)
-    {
+                         @RequestParam(required = false) String roleAdmin) {
         Set<Roles> roles = new HashSet<>();
-        roles.add(userService.getRoleByName("ROLE_USER"));
-        if (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")) {
-            roles.add(userService.getRoleByName("ROLE_ADMIN"));
+        List<Roles> list = roleService.getListRoles();
+        for(int i =0; i < list.size(); i++){
+            if((roleAdmin != null && roleAdmin.equals("ROLE_ADMIN"))
+                    && list.get(i).getRole().contains("ROLE_ADMIN")){
+                roles.add(roleService.getRole(i + 1));
+            }
+            if(list.get(i).getRole().contains("ROLE_USER")){
+                roles.add(roleService.getRole(i + 1));
+            }
         }
         user.setRoles(roles);
         userService.addUser(user);
@@ -82,9 +89,15 @@ public class UserController {
     public String update(@ModelAttribute("user") User user,
                          @RequestParam(required = false) String roleAdmin) {
         Set<Roles> roles = new HashSet<>();
-        roles.add(userService.getRoleByName("ROLE_USER"));
-        if (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")) {
-            roles.add(userService.getRoleByName("ROLE_ADMIN"));
+        List<Roles> list = roleService.getListRoles();
+        for(int i =0; i < list.size(); i++){
+            if((roleAdmin != null && roleAdmin.equals("ROLE_ADMIN"))
+                    && list.get(i).getRole().contains("ROLE_ADMIN")){
+                roles.add(roleService.getRole(i + 1));
+            }
+            if(list.get(i).getRole().contains("ROLE_USER")){
+                roles.add(roleService.getRole(i + 1));
+            }
         }
         user.setRoles(roles);
         userService.editUser(user);

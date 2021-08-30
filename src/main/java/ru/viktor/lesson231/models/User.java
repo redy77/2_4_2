@@ -2,8 +2,6 @@ package ru.viktor.lesson231.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +21,7 @@ public class User implements UserDetails {
 
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Roles> roles = new HashSet<>();
 
     public void addRole(Roles role) {
@@ -35,7 +33,6 @@ public class User implements UserDetails {
         return roles;
     }
 
-    @Transactional
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
