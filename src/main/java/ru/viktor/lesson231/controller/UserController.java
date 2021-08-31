@@ -8,6 +8,7 @@ import ru.viktor.lesson231.models.Roles;
 import ru.viktor.lesson231.models.User;
 import ru.viktor.lesson231.service.RoleService;
 import ru.viktor.lesson231.service.UserService;
+
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
@@ -55,49 +56,36 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("roles", roleService.getListRoles());
         return "new";
     }
 
     @PostMapping("/new")
     public String create(@ModelAttribute("user") User user,
-                         @RequestParam(required = false) String roleAdmin) {
+                         @RequestParam(required = false) List<Long> choseRoles) {
         Set<Roles> roles = new HashSet<>();
-        List<Roles> list = roleService.getListRoles();
-        for(int i =0; i < list.size(); i++){
-            if((roleAdmin != null && roleAdmin.equals("ROLE_ADMIN"))
-                    && list.get(i).getRole().contains("ROLE_ADMIN")){
-                roles.add(roleService.getRole(i + 1));
-            }
-            if(list.get(i).getRole().contains("ROLE_USER")){
-                roles.add(roleService.getRole(i + 1));
-            }
+        for (Long role: choseRoles) {
+            roles.add(roleService.getRole(role));
         }
         user.setRoles(roles);
+
         userService.addUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.getUser(id));
+    public String edit(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("roles", roleService.getListRoles());
         return "edit";
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
-                         @RequestParam(required = false) String roleAdmin) {
+                         @RequestParam(required = false) List<Long> choseRoles) {
         Set<Roles> roles = new HashSet<>();
-        List<Roles> list = roleService.getListRoles();
-        for(int i =0; i < list.size(); i++){
-            if((roleAdmin != null && roleAdmin.equals("ROLE_ADMIN"))
-                    && list.get(i).getRole().contains("ROLE_ADMIN")){
-                roles.add(roleService.getRole(i + 1));
-            }
-            if(list.get(i).getRole().contains("ROLE_USER")){
-                roles.add(roleService.getRole(i + 1));
-            }
+        for (Long role: choseRoles) {
+            roles.add(roleService.getRole(role));
         }
         user.setRoles(roles);
         userService.editUser(user);
